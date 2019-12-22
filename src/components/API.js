@@ -1,0 +1,1 @@
+let API; export default API = "https://pruebatecnica.puntosleal.com/api/";
