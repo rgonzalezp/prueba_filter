@@ -1,44 +1,56 @@
 import React, { Component } from "react";
+import ListGroup from "react-bootstrap/ListGroup";
+import Button from 'react-bootstrap/Button';
+import axios from 'axios';
+import API from './API.js';
 
-export default class Login extends Component {
-    render() {
-        return (
-            <form>
-                <h3>Sign In</h3>
+export default class Transaction extends Component {
 
-                <div className="form-group">
-                    <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" />
-                </div>
-
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" />
-                </div>
-
-                <div className="form-group">
-                   
-                </div>
-
-                <button className="btn btn-primary btn-block">Submit</button>
-            </form>
-        );
+    constructor(props) {
+      super(props);
+     
+    this.state = { transactions:[] };
+    
+        
     }
+
+
+    componentDidMount() {
+
+        const headers = {
+          'Authorization': this.props.auth
+        };
+  
+          axios.get(API+"user/my/transactions", {headers}).then(res => {
+            console.log(res.data.data)
+              const allTransactions = res.data.data;
+              this.setState({transactions:allTransactions})
+             
+            });
+        }
+
+renderTransactions() { 
+    return (
+    <ListGroup>
+        {!this.state.transactions.length? null : this.state.transactions.map(item => {
+              return <ListGroup.Item> Value:{item.value} Points{item.points} Type:{item.type} Created:{item.createdDate}</ListGroup.Item>;})
+        }
+    </ListGroup>
+    );
 }
 
-// axios.get(API+"/sample/all").then(res => {
-//        const allSamples = res.data;
-//        let userSamples = [];
-//        allSamples.forEach(sample => {
-//          if (sample["ownerId"] === this.props.userAuth.id) {
-//            userSamples.push(sample);
-//          }
-//        });
-//        if (userSamples.length) {
-//          this.setState({
-//            samples: userSamples,
-//            selectedSample: userSamples[0],
-//            selectedName: userSamples[0].name + " (" + userSamples[0]._id + ")"
-//          });
-//        }
-//      });
+    render() {
+        return (
+            <div>  
+              {this.renderTransactions()}
+            </div>
+        );
+    }
+
+
+
+
+
+}
+
+
