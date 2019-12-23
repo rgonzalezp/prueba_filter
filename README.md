@@ -17,12 +17,11 @@
 - Ricardo Enrique Gonzalez Penuela: https://rgonzalezp.github.io/
 
 ## Quickstart:
-- Small note: You need to have installed mongodb and meteor to make the necessary imports to the mongo database and run the app
-- ```meteor npm install``` to install node modules in the project folder
-- ```meteor``` to deploy the local server
+- ```npm install``` to install node modules in the project folder
+- ```npm start``` to deploy the local server
 
 ## Preview
-![alt text](trabajo4.png)
+![alt text](https://github.com/rgonzalezp/prueba_filter/blob/master/public/preview.png)
 
 ## Copyright and license
 Code Copyright 2019 Ricardo Enrique Gonzalez Peñuela. Code released under the MIT license.
