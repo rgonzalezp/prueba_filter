@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router"
+import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
 import API from './API.js';
 
@@ -25,8 +26,8 @@ constructor(props) {
 
   handleSubmit = ( event ) => {
     const { email, password } = this.state;
-
-     axios.post(API+"user/login" , {
+    this.setState({open:false})
+    axios.post(API+"user/login" , {
            email: this.state.email,
            password: this.state.password
          })
@@ -36,21 +37,39 @@ constructor(props) {
                  this.setState({
                    redirect:true
                  })
-                });
+                }).catch(err => {
+            this.setState({ open: true });
+          });
 
   };
 
 
 
     render() {
-    if(this.state.redirect){
-  return <Redirect to='/transactions'/>;
-}
+        if(this.state.redirect){
+          return <Redirect to='/transactions'/>;
+        }
+    
+         let saveAndClose = () => {
+    
+           this.setState({ open: false })
+        }
 
     
 
         return (
             <div>
+            <Modal show={this.state.open} onHide={saveAndClose}>
+               <Modal.Header closeButton>
+                 <Modal.Title> Error </Modal.Title>
+               </Modal.Header>
+               <Modal.Body>Incorrect Password or inexistent account</Modal.Body>
+               <Modal.Footer>
+                 <button variant="secondary" onClick={saveAndClose}>
+                   Close
+                 </button>
+               </Modal.Footer>
+             </Modal>
             <form>
                 <h3>Sign In</h3>
 

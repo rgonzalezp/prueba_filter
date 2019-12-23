@@ -8,6 +8,7 @@ import axios from 'axios';
 import API from './API.js';
 import DatePicker from "react-datepicker";
 import ModalLeal from "./ModalLeal";
+import Spinner from "react-bootstrap/Spinner";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -22,7 +23,8 @@ export default class Transaction extends Component {
      
     this.state = { transactions:[],
     startDate:moment(),
-    endDate:moment()
+    endDate:moment(),
+    loading: false
      }; 
     }
 
@@ -47,6 +49,7 @@ renderTransactions() {
 
 
   handleSubmit = ( event ) => {
+    this.setState({loading:true})
      const headers = {
           'Authorization': this.state.auth
         };
@@ -56,7 +59,7 @@ renderTransactions() {
           axios.get(API+"user/my/transactions?startDate="+start+"&endDate="+end,{headers}).then(res => {
             console.log(res.data.data)
               const allTransactions = res.data.data;
-              this.setState({transactions:allTransactions})
+              this.setState({transactions:allTransactions,loading:false})
              
             });
 
@@ -104,7 +107,7 @@ renderTransactions() {
             </Row> 
             <button className="btn btn-primary btn-block" onClick= {this.handleSubmit}>Search</button>
             <Row className="justify-content-center">
-            {this.renderTransactions()}
+            {this.state.loading?<Spinner animation="grow" />:this.renderTransactions()}
             </Row>
             </Container>
            
