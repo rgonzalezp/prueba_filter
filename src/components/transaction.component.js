@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import API from './API.js';
 import DatePicker from "react-datepicker";
+import ModalLeal from "./ModalLeal";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -22,9 +23,7 @@ export default class Transaction extends Component {
     this.state = { transactions:[],
     startDate:moment(),
     endDate:moment()
-     };
-    
-        
+     }; 
     }
 
 
@@ -39,11 +38,13 @@ renderTransactions() {
     return (
     <ListGroup>
         {!this.state.transactions.length? null : this.state.transactions.map(item => {
-              return <ListGroup.Item key={item._id}> Transaction {i++}</ListGroup.Item>;})
+              return <ListGroup.Item key={item._id}> Transaction {i}<ModalLeal points={item.points} value={item.value} type={item.type} i={i++}/></ListGroup.Item>;})
         }
     </ListGroup>
     );
 }
+
+
 
   handleSubmit = ( event ) => {
      const headers = {
